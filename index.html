@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Chat with Watson Assistant and GPT-3</title>
+</head>
+<body>
+	<h1>Chat with Watson Assistant and GPT-3</h1>
+	<div id="chatlog"></div>
+	<form>
+		<input type="text" id="user-input">
+		<button type="submit">Send</button>
+	</form>
+	<script>
+		const chatlog = document.getElementById('chatlog');
+		const userInput = document.getElementById('user-input');
+
+		document.querySelector('form').addEventListener('submit', async (event) => {
+			event.preventDefault();
+
+			const text = userInput.value.trim();
+
+			// Send the user's message to the server
+			const response = await fetch('/message', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ input: { text } })
+			});
+
+			const data = await response.json();
+
+			// Add the user's message and the server's response to the chat log
+			chatlog.innerHTML += `
+				<div><strong>You:</strong> ${text}</div>
+				<div><strong>Bot:</strong> ${data.output.text}</div>
+			`;
+
+			// Clear the input field
+			userInput.value = '';
+		});
+	</script>
+</body>
+</html>
