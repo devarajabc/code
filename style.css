@@ -1,0 +1,25 @@
+#chat-container {
+    width: 400px;
+    height: 500px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #output {
+    flex-grow: 1;
+    overflow-y: scroll;
+  }
+  
+  #input-container {
+    display: flex;
+  }
+  
+  #input {
+    flex-grow: 1;
+  }
+  
+  #send-btn {
+    width: 80px;
+  }
+  

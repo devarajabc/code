@@ -23,31 +23,10 @@ const sessionId = async () => {
     return session.result.session_id;
   };
   
-
-
-//////
-// Send a message to Watson Assistant and get a response
-/*const sendMessage = async (text) => {
-    const message = {
-      input: {
-        text,
-      },
-      assistantId:"ecef0562-84e1-409e-ba03-2d8de872fffb",
-    };
-  
-    try {
-      const response = await assistant.message(message);
-      return response.result.output.generic[0].text;
-    } catch (error) {
-      console.error(error);
-      return error.message;
-    }
-  };*/
-////////////
 // Set up the OpenAI service
 openai.apiKey ="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";
 const engine ="text-davinci-edit-001";
-
+app.use(express.json());
 // Handle the message endpoint
 app.post('/message', async (req, res) => {
   const sessionId = uuidv4();
@@ -70,6 +49,7 @@ app.post('/message', async (req, res) => {
       prompt: watsonResponse.result.output.generic[0].text,
       maxTokens: 50,
     });
+    console.log('OpenAI response:', openaiResponse.data.choices[0].text);
 
     // Send the response back to the user
     res.json({
@@ -89,7 +69,11 @@ app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-  });
+//app.get('/', (req, res) => {
+ //   res.send('Hello, World!');
+ // });
+ app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/index.html');
+});
+
   
